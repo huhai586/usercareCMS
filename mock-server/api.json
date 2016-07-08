@@ -1,0 +1,360 @@
+{
+  "Demo": [
+    {
+      "url": "/region/list",
+      "desc": "获取分类列表成功",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "获取分类列表成功",
+        "data": [{
+          "categoryCode": "100",
+          "categoryName": "体育"
+        },{
+          "categoryCode": "101",
+          "categoryName": "社会"
+        },{
+          "categoryCode": "102",
+          "categoryName": "科学"
+        },{
+          "categoryCode": "103",
+          "categoryName": "艺术"
+        }]
+      }
+    },
+    {
+      "url": "/source/topLevelList",
+      "desc": "获取一级元类型",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "获取一级元类型表成功",
+        "data": [{
+          "sourceCode": "100",
+          "sourceName": "门户"
+        },{
+          "sourceCode": "101",
+          "sourceName": "社区"
+        },{
+          "sourceCode": "102",
+          "sourceName": "自创"
+        }]
+      }
+    },
+    {
+      "url": "/topSource/query",
+      "desc": "获取二级内容源列表",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "获取二级内容源列表成功",
+        "data": [{
+          "sourceId": "100",
+          "sourceName": "sina"
+        },{
+          "sourceId": "101",
+          "sourceName": "QQ"
+        },{
+          "sourceId": "103",
+          "sourceName": "weibo"
+        }]
+      }
+    },
+    {
+      "url": "/content/list",
+      "desc": "搜索结果",
+      "mock":true,
+      "delay": 100,
+      "res": {
+        "code": 200,
+        "msg": "There is a 50% chance of failure, pls try again",
+        "data": {
+          "pageNo":1,
+          "pageSize":20,
+          "totalPage":8,
+          "totalCount":158,
+          "items|4":[{
+            "id|+1":100,
+            "title":"@cparagraph(1)",
+            "sourceDesc":"sinaaa",
+            "originalReleaseTimestamp":1464231788573,
+            "browseNum":"@integer(10,3000)",
+            "status":"@integer(0,1)",
+            "type":"@integer(1,3)",
+            "recommendFlag":"@integer(0,1)",
+            "topFlag":"@integer(0,1)"
+          }]
+
+            }
+      }
+    },
+    {
+      "url": "/comment/list",
+      "desc": "获取结果",
+      "mock":true,
+      "delay": 100,
+      "res": {
+        "code": 200,
+        "msg": "There is a 50% chance of failure, pls try again",
+        "data": {
+          "pageNo":1,
+          "pageSize":20,
+          "totalPage":8,
+          "totalCount":158,
+          "originalCommentNum":100,
+          "commentNum":20,
+          "commentList|4":[{
+            "commentId|+1":100,
+            "content":"@cparagraph(1)",
+            "type":"@integer(1,0)",
+            "userDesc":"testuser",
+            "status":"@integer(0,1)",
+            "commentTimestamp":"1463129160"
+          }]
+
+        }
+      }
+    },
+    {
+      "url": "/content/detail",
+      "desc": "搜索结果",
+      "mock":true,
+      "delay": 10,
+      "res": {
+        "code": 200,
+        "msg": "There is a 50% chance of failure, pls try again",
+        "data": {
+          "categoryCode":[100,101],
+          "appBrowseNum": 0,
+          "body": "<h2>И они за это платят</h2><p><img src='http://static.cnbetacdn.com/thumb/article/2016/0521/e4cd0cd3b360e04.png_600x600.png'><img  src='http://faxian.smzdm.com/resources/public/img/logo.png'><img  src='http://faxian.smzdm.com/resources/public/img/logo.png'><img  src='http://faxian.smzdm.com/resources/public/img/logo.png'></p><p>По словам журналиста, даже за проживание в таких условиях сборщики Apple вынуждены платить. Они живут в комнатах на 8-12 мест, где установлены старые двухъярусные кровати.</p><p>В санузлах – грязь и плесень, душевые кабины общие, ширмы – только видимость. Вместо унитазов – сливы в санузлах и открытые канализационные люки.</p><p>Аналогичные условия и в столовых, хотя помещения и пытались украсить к новому году. Антисанитария, ржавчина, грязь сопровождает сотрудников вне фабрик.</p><p>Один из бывших сотрудников завода Pegatron рассказал журналисту, что к сборщикам всегда относились как к роботам. За соблюдение прав человека Apple выступает лишь публично, в реальности же люди получают низкую зарплату и живут в ужасных условиях.</p><p>Компанию упрекали в этом неоднократно, однако ситуация не изменилась. Последний мощный виток скандала был в 2012 году: производителя обвинили в том, что сотрудники работают более 60 часов в неделю, причем не получают сверхурочных за переработку и работают без соблюдения норм безопасности. Тогда Apple и Foxconn пообещали улучшить условия работы сборщиков iPhone.</p>",
+          "browseNum": 0,
+          "commentNum": 0,
+          "imageList": [],
+          "recommendFlag":1,
+          "topFlag":1,
+          "crawlTimestamp": 1463131664,
+          "headImageList": [{"url":"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"},{"url":"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"}],
+          "contentId": 917,
+          "originalBrowseNum": 0,
+          "originalCommentNum": 0,
+          "originalId": 1463129160,
+          "originalKeywords": "",
+          "originalReleaseTimestamp": 1463129160,
+          "originalShareNum": 0,
+          "originalUrl": "https://hi-tech.mail.ru/news/employees-iphone-foxconn-pegatron-live-conditions/",
+          "praiseNum": 0,
+          "publishTimestamp": 1463131664,
+          "shareNum": 0,
+          "sourceDesc": "mail.ru",
+          "status": 1,
+          "title": "Шокирующие фото: в&nbsp;каких условиях живут сборщики iPhone",
+          "type": 1,
+          "webBrowseNum": 0,
+          "imageList":[{
+            "id":23,
+            "imageUrl":"http://hi.baidu.com/images/hinew/logo.png",
+            "description":"这是一个测试版本的描述",
+            "imageOrder":1,
+            "headFlag":0
+          },{
+            "id":24,
+            "imageUrl":"http://hi.baidu.com/images/hinew/logo.png",
+            "description":"这是一个测试版本的描述22",
+            "imageOrder":2,
+            "headFlag":0
+          },
+            {
+              "id":25,
+              "imageUrl":"http://hi.baidu.com/images/hinew/logo.png",
+              "description":"这是一个测试版本的描述33",
+              "imageOrder":3,
+              "headFlag":1
+            }]
+        }
+      }
+    },
+    {
+      "url": "/categoryMap/list",
+      "desc": "获取内容源映射列表",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "Success",
+        "data": {
+          "pageNo": 1,
+          "pageSize": 10,
+          "totalPage": 2,
+          "totalCount": 12,
+          "items": [{
+            "categoryCode":"0001",
+            "categoryName": "Sports",
+            "sourceList": [{
+              "sourceId": 1,
+              "sourceName": "Yadex"
+            },
+              {
+                "sourceId": 2,
+                "sourceName": "Mail"
+              }]
+          },
+            {
+              "categoryCode":"0002",
+              "categoryName": "Technology",
+              "sourceList": [{
+                "sourceId": 1,
+                "sourceName": "Yadex"
+              },
+                {
+                  "sourceId": 2,
+                  "sourceName": "Mail"
+                }]
+            }]
+        }
+      }
+    },
+    {
+      "url": "/source/list",
+      "desc": "获取所有二级内容源",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "Success",
+        "data": [
+
+        {
+              "sourceId": 1,
+              "sourceName": "Yadex"
+            },
+              {
+                "sourceId": 2,
+                "sourceName": "Mail"
+              },
+          {
+            "sourceId": 3,
+            "sourceName": "Google"
+          },
+          {
+            "sourceId": 4,
+            "sourceName": "Sina"
+          }
+          ]
+        }
+
+    },
+    {
+
+      "url": "/apk/list",
+      "desc": "获取所有app",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "Success",
+        "data": {
+          "appList":[{
+            "versionCode":121,
+            "versionName":"tstream",
+            "id":1,
+            "createdTimestamp":"1464077974216",
+            "description":"初始版本",
+            "releaseFlag":1,
+            "updateFlag":0
+
+          },
+            {
+              "versionCode":122,
+              "versionName":"sdf",
+              "id":2,
+              "createdTimestamp":"1464077974216",
+              "description":"sdfadf vxcgvx",
+              "releaseFlag":0,
+              "updateFlag":1
+
+            }]
+        }
+      }
+
+
+    },
+    {
+
+      "url": "/push/list",
+      "desc": "获取所有push",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "Success",
+        "data": {
+          "pageNo":1,
+          "pageSize":10,
+          "totalCount":30,
+
+          "items":[{
+            "contentTitle":"四处说的话说的飞",
+            "versionCodes":"123,23423,423",
+            "country":"",
+            "timeZone":"",
+            "pushedTimestamp":"1466768991624"
+          },
+            {
+              "contentTitle":"tytrhfhfghfghfh",
+              "versionCodes":"123,23423,423",
+              "country":"",
+              "timeZone":"",
+              "pushedTimestamp":"1466768991624"
+            }]
+        }
+      }
+
+
+    },
+    {
+      "url": "/source/search",
+      "desc": "根据关键字搜索二级源列表，用于cms的设置页面时调用",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "Success",
+        "data": {
+          "items": [{
+            "autoPublishFlag": 1,
+            "crawlFlag": 1,
+            "offlineFlag": 0,
+            "sourceId": 2,
+            "sourceName": "https://news.mail.ru/politics/"
+          },
+            {
+              "autoPublishFlag": 1,
+              "crawlFlag": 1,
+              "offlineFlag": 0,
+              "sourceId": 3,
+              "sourceName": "https://news.mail.ru/economics/"
+            }],
+          "pageNo": 1,
+          "pageSize": 2,
+          "totalCount": 5,
+          "totalPage": 3
+        }
+        }
+
+    },
+    {
+      "url": "/",
+      "desc": "Index",
+      "mock":true,
+      "res": {
+        "code": 200,
+        "msg": "Hi, this is mock server.",
+        "data": ""
+      }
+    },
+    {
+      "url": "/7",
+      "desc": "Index",
+      "mock":true,
+      "res": {
+
+    "originalName":"demo.jpg","name":"demo.jpg","url":"http://www.hi-pda.com/forum/templates/colors/images/logo.gif","size":"99697","type":".jpg","state":"SUCCESS"
+              }
+    }
+  ]
+}
