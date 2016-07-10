@@ -16,7 +16,7 @@ export default React.createClass({
         return this.refs.category.state.value;
     },
     render(){
-        
+
         return(
             <div className={style.querySelect} >
                 <Select ref="category" clearable={false}

@@ -26,3 +26,4 @@ export const DELETE_LABELS = getApi('/label/delete');
 export const GET_CATEGORYS = getApi('/hotfaq/category');
 export const SEARCH_FAQ = getApi('/hotfaq/list');
 export const CHANGE_FAQ_DISPLAY = getApi('/hotfaq/editStatus');
+export const GET_ALL_PROJECTS_LIST = getApi('/project/getAllProject');

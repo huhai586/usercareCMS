@@ -3,3 +3,41 @@ width:50%;
   display: inline-block;
   vertical-align: top;
 }
+
+
+.alignRight{
+  width:48%;
+  float: right;
+  span{
+    padding:0.2em;
+
+  }
+}
+.alignLeft{
+  float:left;
+}
+.clearFloat{
+  overflow: auto;
+}
+
+.selectedModel{
+  span{
+    display: inline-block;
+    margin:0.5em;
+  }
+  span:hover{
+    background:#333;
+    opacity: 0.5;
+    cursor: pointer;
+    position:relative;
+    &:after{
+      content:"X";
+      color:white;
+      position: absolute;
+      left:50%;
+      top:50%;
+      margin-top:-10px;
+      margin-left: -5px;
+    }
+  }
+}

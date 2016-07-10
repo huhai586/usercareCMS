@@ -5,9 +5,10 @@ import * as faqsActions from '../../actions/faqs';
 import * as labelsActions from '../../actions/labels';
 import NewTemplate from '../../components/Faqs/new-template';
 import style from './style.less';
-import { Input,Select,Button,Switch,Icon,Pagination   } from 'antd';
-const Option = Select.Option;
-import classnames from 'classnames'
+import { Input,Button,Switch,Icon,Pagination   } from 'antd';
+import SelectCommon from "../../components/Articles/select-common.js";
+import classnames from 'classnames';
+import Select from 'react-select';
 
 // antd example
 
@@ -24,7 +25,7 @@ var FAQS = React.createClass({
 
     },
     componentDidMount(){
-        var p1=this.props.actions.getProjectsList();
+        var p1=this.props.actions.getAllProjectsList();
         var p2=this.props.actions.getLabels();
         var p3=this.props.actions.getCategorys();
         Promise.all([p1, p2, p3]).then((res)=>{
@@ -40,6 +41,7 @@ var FAQS = React.createClass({
         this.setState({keyWords:e.target.value});
     },
     storeCategory(val){
+
         this.setState({categoryId:val});
     },
     storeModel(val){
@@ -80,14 +82,14 @@ var FAQS = React.createClass({
             itemsModels=[];
         }else{
             itemsModels=itemsModels.map(obj=>{
-                var curValue=obj.id,noChild=false,children=[];
+                var curValue=obj.projectName,noChild=false,children=[];
                 var curLabel=obj.projectName;
                 if(obj.modelList && obj.modelList.length==0){
                     noChild=true
                 }else{
                     var child=obj.modelList;
                     children=child.map(obj=>{
-                        return {value:obj.id,label:obj.modelCode}
+                        return {value:obj.modelCode,label:obj.modelCode}
                     })
                     return {value:curValue,label:curLabel,children: children}
                 }
@@ -97,24 +99,25 @@ var FAQS = React.createClass({
         // console.log("当前的itemsModels",itemsModels);
 
         //获取labels
-        var labels=FAQS.labelsData.items;
-        if(!labels){
-            labels=[];
+        var optionsLabels=FAQS.labelsData.items;
+        if(!optionsLabels){
+            optionsLabels=[];
         }else{
-            labels=labels.map((obj,index)=>{
-                return  <Option value={obj.name} key={index}>{obj.name}</Option>
+            optionsLabels=optionsLabels.map((obj,index)=>{
+                return  {value:obj.id,label:obj.name}
             })
         }
+
         //获取Category
-        var categorys=FAQS.categoryData.items,categoryDefault;
-        if(!categorys){
-            categorys=[];
+        var optionsCategory=FAQS.categoryData.items,categoryDefault;
+        if(!optionsCategory){
+            optionsCategory=[];
         }else{
-            categorys=categorys.map((obj,index)=>{
+            optionsCategory=optionsCategory.map((obj,index)=>{
                 if(index==0){
                     categoryDefault=obj.id;
                 }
-                return  <Option value={obj.id} key={index}>{obj.name}</Option>
+                return  {value:obj.id,label:obj.name}
             })
         }
         //或者faqs list
@@ -185,12 +188,13 @@ var FAQS = React.createClass({
             })
         }
         if(faqsTD.length==0){
-            faqsTD=<tr><td  align="center"  colSpan="11" >No Date</td></tr>
+            faqsTD=<tr><td  align="center"  colSpan="12" >No Date</td></tr>
         }
 
         return(
            <div>
-               <NewTemplate show={this.state.showTemplate} closeModal={this.closeTemplate} categorys={categorys} labels={labels} itemsModels={itemsModels} ></NewTemplate>
+               <NewTemplate show={this.state.showTemplate} closeModal={this.closeTemplate} categorys={optionsCategory} labels={optionsLabels} itemsModels={itemsModels} ></NewTemplate>
+
 
                <div className={style.formItem}>
                    <label htmlFor="">keywords</label>
@@ -200,20 +204,16 @@ var FAQS = React.createClass({
                <div className={style.formItem}>
                    <label htmlFor="">Category</label>
                    <div className="zujian">
+                       <SelectCommon
+                           onChange={this.storeCategory}
+                           options={optionsCategory}
+                           value={this.state.categoryId}
+                           />
 
-                       <Select showSearch
-                               style={{ width: 200 }}
-                               placeholder="choose Category"
-                               optionFilterProp="children"
-                               notFoundContent="no found"
-                               allowClear={true}
-                               defaultValue={categoryDefault}
-                               onChange={this.storeCategory}
-                       >
-                           {categorys}
-                       </Select>
                    </div>
                </div>
+
+
 
                <div className={style.formItem}>
                    <label htmlFor="">Model</label>
@@ -221,6 +221,7 @@ var FAQS = React.createClass({
                        <Cascader options={itemsModels} expandTrigger="hover"
                                  onChange={this.storeModel}
                                  allowClear={true}
+                                size="large"
                        />
                    </div>
                </div>
@@ -229,16 +230,14 @@ var FAQS = React.createClass({
                    <label htmlFor="">Label</label>
                    <div className="zujian">
 
-                       <Select showSearch
-                               style={{ width: 200 }}
-                               placeholder="请选择标签"
-                               optionFilterProp="children"
-                               notFoundContent="无法找到"
-                               allowClear={true}
-                                onchange={this.storeLabel}
-                       >
-                           {labels}
-                       </Select>
+
+
+                       <SelectCommon
+                           onChange={this.storeLabel}
+                           options={optionsLabels}
+                           value={this.state.label}
+                           />
+
 
                    </div>
                </div>

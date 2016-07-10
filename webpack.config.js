@@ -181,7 +181,9 @@ module.exports = {
       },
       '/boss/*': {
         // target: 'http://127.0.0.1:8080',
-        target: 'http://172.26.50.66:8080',
+      target: 'http://127.0.0.1:2618',
+
+      //target: 'http://172.26.50.66:8080',
         // target: 'http://usercare-test.tclclouds.com',
         secure: false
       }

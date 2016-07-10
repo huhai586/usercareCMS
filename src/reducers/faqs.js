@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { GET_PROJECTS_LIST,GET_LABELS,GET_CATEGORYS,SEARCH_FAQ} from '../constants/actions';
+import { GET_PROJECTS_LIST,GET_LABELS,GET_CATEGORYS,SEARCH_FAQ,GET_ALL_PROJECTS_LIST} from '../constants/actions';
 import { merge, union } from 'lodash';
 
 const initialState = {
@@ -10,8 +10,9 @@ const initialState = {
 };
 
 export default handleActions({
-    [GET_PROJECTS_LIST]: (state, action) => {
-        
+    [GET_ALL_PROJECTS_LIST]: (state, action) => {
+
+
         if (!action.error) {
             return {...state,projectsList: action.payload};
         }

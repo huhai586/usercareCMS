@@ -2,13 +2,15 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import style from './style.less';
 import UMeditor from '../UMeditor/index'
-import { Input,Select,Switch,Icon,Pagination,Cascader   } from 'antd';
+import { Input,Switch,Icon,Pagination,Cascader   } from 'antd';
+import SelectCommon from "../../components/Articles/select-common.js";
+import {uniq,compact} from 'lodash';
 
 export default React.createClass({
     getInitialState(){
         return {
             versions:[],
-            expireTime:[{value:21600,label:"6 Hours"},{value:43200,label:"12 Hours"},{value:86400,label:"24 Hours"}]
+            allModels:[]
 
         }
     },
@@ -36,7 +38,46 @@ export default React.createClass({
         this.setState({categoryId:val});
     },
     storeModel(val){
-        this.setState({model:val[1]});
+        //存储当前的model
+
+        this.setState({curModel:val});
+
+    },
+    componentWillReceiveProps(nextProps){
+        if(this.props.show==false && nextProps.show==true){
+            //第一次打开界面的时候初始化state
+            var defaultCategory=this.props.categoryId;
+            var defaultLabel=this.props.label;
+            var defaultModel=this.props.allModel;
+            if()
+            this.setState({categoryId:this.props.categoryId});
+
+        }
+
+    },
+    pushTOallModels(){
+        this.setState(state=>{
+            var allModels=state.allModels?state.allModels:[];
+            var curModel=this.state.curModel;
+            if(!curModel||curModel.length==0) return
+            allModels.push(curModel);
+            allModels=uniq(allModels);
+            return {...state,allModels}
+
+        },()=>{
+            console.log("最终的state",this.state)
+
+                this.setState({curModel:[]})
+
+        })
+    },
+    removeModel(index){
+        this.setState(state=>{
+            var allModels=state.allModels;
+            delete allModels[index];
+            allModels=compact(allModels);
+            return {...state,allModels}
+        })
     },
     storeLabel(val){
         this.setState({label:val});
@@ -56,17 +97,12 @@ export default React.createClass({
                             <label htmlFor="">Category</label>
                             <div className="zujian">
 
-                                <Select showSearch
-                                        style={{ width: 200 }}
-                                        placeholder="choose Category"
-                                        optionFilterProp="children"
-                                        notFoundContent="no found"
-                                        allowClear={true}
+                                <SelectCommon
+                                    onChange={this.storeCategory}
+                                    options={categorys}
+                                    value={this.state.categoryId}
 
-                                        onChange={this.storeCategory}
-                                >
-                                    {categorys}
-                                </Select>
+                                    />
                             </div>
                         </div>
 
@@ -77,14 +113,33 @@ export default React.createClass({
 
 
                         <h4>Apply to models</h4>
-                        <span>Universal:This FAQ Will be applied to all the Alcatel ot TCL devices</span>
-                         <div className={style.formItem}>
-                            <div className="zujian">
-                                <Cascader options={itemsModels} expandTrigger="hover"
-                                          onChange={this.storeModel}
-                                          allowClear={true}
-                                />
+                        <div className={style.clearFloat}>
+                        <div className={style.alignLeft}>
+                            <span>Universal:This FAQ Will be applied to all the Alcatel ot TCL devices</span>
+                            <div className={style.formItem}>
+                                <div className="zujian">
+                                    <Cascader options={itemsModels} expandTrigger="hover"
+                                              onChange={this.storeModel}
+                                              allowClear={true}
+                                        />
+                                    <Button onClick={this.pushTOallModels}>add</Button>
+                                </div>
                             </div>
+                        </div>
+
+                            <div className={style.alignRight}>
+                                <span>You choosed:</span>
+                                <div className={style.selectedModel}>
+                                    {
+                                        this.state.allModels.map((obj,index)=>{
+                                            return <span key={index} onClick={this.removeModel.bind(this,index)}>
+                                           { obj[0]+" "+obj[1]}
+                                            </span>
+                                        })
+                                    }
+                                </div>
+                            </div>
+
                         </div>
 
                         <h4>Labels</h4>
@@ -92,16 +147,11 @@ export default React.createClass({
                         <div className={style.formItem}>
                             <div className="zujian">
 
-                                <Select showSearch
-                                        style={{ width: 200 }}
-                                        placeholder="请选择标签"
-                                        optionFilterProp="children"
-                                        notFoundContent="无法找到"
-                                        allowClear={true}
-                                        onchange={this.storeLabel}
-                                >
-                                    {labels}
-                                </Select>
+                                <SelectCommon
+                                    onChange={this.storeLabel}
+                                    options={labels}
+                                    value={this.state.label}
+                                    />
 
                             </div>
                         </div>

@@ -107,6 +107,7 @@ export default {
   getCategorys: (params) => request(API.GET_CATEGORYS, params, METHOD.GET),
   searchFAQ: (params) => request(API.SEARCH_FAQ, params, METHOD.POST),
   changeFAQdisplay: (params) => request(API.CHANGE_FAQ_DISPLAY, params, METHOD.GET),
+  getAllProjectsList: (params) => request(API.GET_ALL_PROJECTS_LIST, params, METHOD.GET),
 
 
 
