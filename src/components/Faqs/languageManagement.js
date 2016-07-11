@@ -170,22 +170,70 @@ export default React.createClass({
             <div>
                <Modal  {...this.props} backdrop="static" onHide={this.props.closeModal} bsSize="large" aria-labelledby="contained-modal-title-lg">
                     <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-lg" backdrop="static">FAQ english creation page</Modal.Title>
+                        <Modal.Title id="contained-modal-title-lg" backdrop="static">Multi-language Translation Management</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <h6>FAQ ID :9999</h6>
+                        <div>
+                            <span className="categoryName">Filter</span>
+                                <div className={style.formItem}>
+                                    <label htmlFor="">Translation Status</label>
+                                    <div className="zujian">
 
-                        <div className={style.formItem}>
-                            <label htmlFor="">Category</label>
-                            <div className="zujian">
+                                        <SelectCommon
+                                            onChange={this.storeCategory}
+                                            options={categorys}
+                                            value={this.state.categoryId}
 
-                                <SelectCommon
-                                    onChange={this.storeCategory}
-                                    options={categorys}
-                                    value={this.state.categoryId}
+                                            />
+                                    </div>
+                                </div>
 
-                                    />
+                            <div className={style.formItem}>
+                                <label htmlFor="">Language</label>
+                                <div className="zujian">
+
+                                    <SelectCommon
+                                        onChange={this.storeCategory}
+                                        options={categorys}
+                                        value={this.state.categoryId}
+
+                                        />
+                                </div>
                             </div>
                         </div>
+
+                        <div>
+                            <span className="categoryName">Status</span>
+                            <span className="languageStatus">Valid</span>
+                        </div>
+
+                        <div>
+                            <span className="categoryName">Question</span>
+                        </div>
+
+                        <div>
+                            <span className="categoryName">Target Language</span>
+                            <input  type="text" className="form-control"  ref="title"  value={this.state.title}/>
+                        </div>
+
+                        <div>
+                            <span className="categoryName">Answer</span>
+                            <p>
+
+                            </p>
+                        </div>
+
+                        <div>
+
+                            <span className="categoryName">Target Language</span>
+                            <div></div>
+
+
+
+                        </div>
+
+
 
                         <h4>Question</h4>
                         <input  type="text" className="form-control"  ref="title"  value={this.state.title}/>

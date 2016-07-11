@@ -43,11 +43,11 @@ export default React.createClass({
 
 
   render() {
-    
+    var content=this.props.brief;
 
     return(
         <div>
-          <div className="article_solo_content"  id="containerNew" >
+          <div className="article_solo_content"  id="containerNew"  dangerouslySetInnerHTML={{__html:content}}>
           </div>
           
  
