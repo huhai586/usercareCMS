@@ -55,7 +55,7 @@ const checkRespStatus = (respPromise) => {
   store.dispatch(x);
 
   if(respPromise.status !== 200) {
-    debugger
+
     alert('Server error occurred')
     console.log('Server error occurred');
     return Promise.reject();
@@ -75,7 +75,7 @@ const checkRespStatus = (respPromise) => {
       }
     });
   }).catch(e=>{
-    debugger
+    
     return Promise.reject(e)
   });
 };
@@ -108,6 +108,7 @@ export default {
   searchFAQ: (params) => request(API.SEARCH_FAQ, params, METHOD.POST),
   changeFAQdisplay: (params) => request(API.CHANGE_FAQ_DISPLAY, params, METHOD.GET),
   getAllProjectsList: (params) => request(API.GET_ALL_PROJECTS_LIST, params, METHOD.GET),
+  saveTemplate: (params) => request(API.SAVE_TEMPLATE, params, METHOD.POST),
 
 
 

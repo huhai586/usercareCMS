@@ -5,15 +5,10 @@ import * as faqsActions from '../../actions/faqs';
 import * as labelsActions from '../../actions/labels';
 import NewTemplate from '../../components/Faqs/new-template';
 import style from './style.less';
-import { Input,Button,Switch,Icon,Pagination   } from 'antd';
+import { Input,Button,Switch,Icon,Pagination,Cascader, Upload, message } from 'antd';
 import SelectCommon from "../../components/Articles/select-common.js";
 import classnames from 'classnames';
-import Select from 'react-select';
 
-// antd example
-
-
-import { Cascader} from 'antd';
 
 
 // antd example
@@ -69,13 +64,22 @@ var FAQS = React.createClass({
         this.props.actions.searchFAQ(params)
     },
     addNewTemplate(){
-        this.setState({"showTemplate":true})
+        this.setState({"showTemplate":true,editItem:undefined})
     },
     closeTemplate(){
         this.setState({"showTemplate":false})
     },
+    showEdit(index){
+        var item=this.props.FAQS.searchFAQ.items[index];
+        this.setState({editItem:item},()=>{
+            this.setState({"showTemplate":true})
+        })
+    },
+    showInfo(info){
+        debugger
+    },
     render() {
-        var {FAQS}=this.props;
+        var {FAQS,actions}=this.props;
         //获取models
         var itemsModels=FAQS.projectsList.items;
         if(!itemsModels){
@@ -132,7 +136,7 @@ var FAQS = React.createClass({
                         {obj.id}
                     </td>
                     <td>
-                        {obj.topic}
+                       <div  className={style.lightblue} onClick={this.showEdit.bind(this,index)}> {obj.topic}</div>
                     </td>
                     <td>
                         {obj.brief}
@@ -190,10 +194,30 @@ var FAQS = React.createClass({
         if(faqsTD.length==0){
             faqsTD=<tr><td  align="center"  colSpan="12" >No Date</td></tr>
         }
+        //配置上传参数
+        const props = {
+            name: 'file',
+            action: 'boss/hotfaq/import',
+            headers: {
+                authorization: 'authorization-text',
+            },
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                   alert(info.file.response.msg)
+                    // this.showInfo(info)
+                    // message.success(`${info.file.name} 上传成功。`);
+                } else if (info.file.status === 'error') {
+                    alert(`${info.file.name} 上传失败。`);
+                }
+            }
+        }
 
         return(
            <div>
-               <NewTemplate show={this.state.showTemplate} closeModal={this.closeTemplate} categorys={optionsCategory} labels={optionsLabels} itemsModels={itemsModels} ></NewTemplate>
+               <NewTemplate editItem={this.state.editItem} actions={actions} show={this.state.showTemplate} closeModal={this.closeTemplate} categorys={optionsCategory} labels={optionsLabels} itemsModels={itemsModels} ></NewTemplate>
 
 
                <div className={style.formItem}>
@@ -250,7 +274,10 @@ var FAQS = React.createClass({
                <div className={style.buttons}>
                    <Button  size="large" icon="edit" onClick={this.addNewTemplate}>Create new</Button>
                    <Button  size="large" icon="export">Export</Button>
-                   <Button  size="large" icon="shrink">Import</Button>
+                   <Upload {...props}>
+                       <Button  size="large" icon="upload">Import</Button>
+                   </Upload>
+
                </div>
 
                <div className="content">
