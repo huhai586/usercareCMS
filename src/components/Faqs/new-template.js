@@ -9,8 +9,10 @@ import {uniq,compact} from 'lodash';
 export default React.createClass({
     getInitialState(){
         return {
-            versions:[],
-            allModels:[]
+
+            allModels:[],
+            categoryId:[],
+            label:""
 
         }
     },
@@ -20,17 +22,7 @@ export default React.createClass({
     componentDidMount(){
         // this.getVersions()
     },
-    getVersions(){
-        this.props.actions.getAppList().then((res)=>{
-            console.log("得到数据app list",res)
-            if(res.error) return
-            let versions=res.payload.map(obj=>(
-            {value: obj.versionCode, label: obj.versionName}
-            ));
-            this.setState({versions:versions})
 
-        })
-    },
     componentWillUnmount(){
         console.log("组件即将被卸载")
     },
@@ -48,9 +40,9 @@ export default React.createClass({
             //第一次打开界面的时候初始化state
             var defaultCategory=this.props.categoryId;
             var defaultLabel=this.props.label;
-            var defaultModel=this.props.allModel;
-            if()
-            this.setState({categoryId:this.props.categoryId});
+            var defaultModel=this.props.allModels;
+            if(!defaultCategory) return
+            this.setState({categoryId:defaultCategory,label:defaultLabel,allModels:defaultModel});
 
         }
 
@@ -81,6 +73,11 @@ export default React.createClass({
     },
     storeLabel(val){
         this.setState({label:val});
+    },
+    closeModal(){
+        this.setState(this.getInitialState(), () => {
+            this.props.closeModal();
+        });
     },
     render() {
         let {categorys,itemsModels,labels,show}=this.props;
@@ -164,7 +161,7 @@ export default React.createClass({
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.saveTemplate} bsStyle="success">Submit</Button>
-                        <Button onClick={this.props.closeModal} >Cancel</Button>
+                        <Button onClick={this.closeModal} >Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
