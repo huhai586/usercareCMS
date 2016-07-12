@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as faqsActions from '../../actions/faqs';
 import * as labelsActions from '../../actions/labels';
 import NewTemplate from '../../components/Faqs/new-template';
+import LanguageManagement from '../../components/Faqs/languageManagement';
 import style from './style.less';
 import { Input,Button,Switch,Icon,Pagination,Cascader, Upload, message } from 'antd';
 import SelectCommon from "../../components/Articles/select-common.js";
@@ -16,7 +17,7 @@ let unionActions = Object.assign({}, faqsActions,labelsActions);
 
 var FAQS = React.createClass({
     getInitialState(){
-        return {modalShow:false,curIndex:0,showTemplate:false}
+        return {modalShow:false,curIndex:0,showTemplate:false,showLanguageMana:false}
 
     },
     componentDidMount(){
@@ -67,7 +68,9 @@ var FAQS = React.createClass({
         this.setState({"showTemplate":true,editItem:undefined})
     },
     closeTemplate(){
-        this.setState({"showTemplate":false})
+        this.setState({"showTemplate":false,"editItem":undefined},()=>{
+            this.doSearch()
+        })
     },
     showEdit(index){
         var item=this.props.FAQS.searchFAQ.items[index];
@@ -75,8 +78,34 @@ var FAQS = React.createClass({
             this.setState({"showTemplate":true})
         })
     },
+    showLanguageMana(id){
+        this.setState({languageFAQid:id},()=>{
+            this.setState({"showLanguageMana":true})
+        })
+    },
     showInfo(info){
         debugger
+    },
+    deleteFAQ(id){
+
+        var _this=this;
+        layer.msg('Are you sure want to delete ？', {
+            time: 0 //不自动关闭
+            ,btn: ['Yes', 'No']
+            ,yes: function(index){
+                layer.close(index)
+                _this.props.actions.deleteFAQ({faqId:id}).then(res=>{
+                    if(!res.error){
+                        alert('delete Success!')
+                        _this.doSearch()
+                    }
+                })
+            }
+        });
+
+
+
+
     },
     render() {
         var {FAQS,actions}=this.props;
@@ -167,7 +196,7 @@ var FAQS = React.createClass({
                     </td>
 
                     <td className={style.multiLanguage}>
-                        <div className="languageManage" >
+                        <div className="languageManage" onClick={this.showLanguageMana.bind(this,obj.id)} >
 
                             <span className={classnames(style.modelItem,{red:obj.faqI18nStatus.inValidCount>0?true:false})}>{obj.faqI18nStatus.inValidCount} languages invalid;</span>
                             <span className={style.modelItem}>{obj.faqI18nStatus.noTranslationCount} No translation;</span>
@@ -183,7 +212,7 @@ var FAQS = React.createClass({
                     <td>{obj.consCount}/{obj.prosCount}</td>
                     <td className={style.fixWidth80}>
                         <Button type="ghost">Copy</Button>
-                        <Button type="ghost">Delete</Button>
+                        <Button type="ghost" onClick={this.deleteFAQ.bind(this,obj.id)}>Delete</Button>
                     </td>
                     <td>
                         {obj.creator}
@@ -218,7 +247,7 @@ var FAQS = React.createClass({
         return(
            <div>
                <NewTemplate editItem={this.state.editItem} actions={actions} show={this.state.showTemplate} closeModal={this.closeTemplate} categorys={optionsCategory} labels={optionsLabels} itemsModels={itemsModels} ></NewTemplate>
-
+               <LanguageManagement faqId={this.state.languageFAQid} actions={actions} show={this.state.showLanguageMana}></LanguageManagement>
 
                <div className={style.formItem}>
                    <label htmlFor="">keywords</label>

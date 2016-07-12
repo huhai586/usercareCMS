@@ -28,3 +28,5 @@ export const SEARCH_FAQ = getApi('/hotfaq/list');
 export const CHANGE_FAQ_DISPLAY = getApi('/hotfaq/editStatus');
 export const GET_ALL_PROJECTS_LIST = getApi('/project/getAllProject');
 export const SAVE_TEMPLATE = getApi('/hotfaq/save');
+export const deleteFAQ = getApi('/hotfaq/delete');
+export const invalidate = getApi('/hotfaq/invalidate');

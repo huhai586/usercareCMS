@@ -29,6 +29,8 @@ export const SEARCH_FAQ = 'SEARCH_FAQ';
 export const CHANGE_FAQ_DISPLAY = 'CHANGE_FAQ_DISPLAY';
 export const GET_ALL_PROJECTS_LIST = 'GET_ALL_PROJECTS_LIST';
 export const SAVE_TEMPLATE = 'SAVE_TEMPLATE';
+export const DELETE_FAQ = 'DELETE_FAQ';
+export const INVALID_DATE = 'INVALID_DATE';
 
 
 

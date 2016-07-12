@@ -75,7 +75,7 @@ const checkRespStatus = (respPromise) => {
       }
     });
   }).catch(e=>{
-    
+
     return Promise.reject(e)
   });
 };
@@ -109,6 +109,8 @@ export default {
   changeFAQdisplay: (params) => request(API.CHANGE_FAQ_DISPLAY, params, METHOD.GET),
   getAllProjectsList: (params) => request(API.GET_ALL_PROJECTS_LIST, params, METHOD.GET),
   saveTemplate: (params) => request(API.SAVE_TEMPLATE, params, METHOD.POST),
+  deleteFAQ: (params) => request(API.deleteFAQ, params, METHOD.GET),
+  invalidate: (params) => request(API.invalidate, params, METHOD.GET),
 
 
 
