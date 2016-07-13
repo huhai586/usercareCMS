@@ -111,6 +111,9 @@ export default {
   saveTemplate: (params) => request(API.SAVE_TEMPLATE, params, METHOD.POST),
   deleteFAQ: (params) => request(API.deleteFAQ, params, METHOD.GET),
   invalidate: (params) => request(API.invalidate, params, METHOD.GET),
+  getCurStatus: (params) => request(API.GET_CUR_STATUS, params, METHOD.GET),
+  getDetailInfo: (params) => request(API.GET_DETAIL, params, METHOD.GET),
+  saveLanTrans: (params) => request(API.SAVE_LAN_TRANS, params, METHOD.POST),
 
 
 

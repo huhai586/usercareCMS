@@ -31,6 +31,15 @@ export default React.createClass({
       this.um && this.um.destroy();
       this.um = null;
       return false;
+    }else if(this.props.parentShow==true && nextProps.parentShow==true){
+      if(this.props.brief!=nextProps.brief){
+        //清空文档
+        this.um.execCommand('cleardoc');
+        this.um.setContent(nextProps.brief?nextProps.brief:"",false)
+
+      }
+        return false
+
     }
     return true;
 

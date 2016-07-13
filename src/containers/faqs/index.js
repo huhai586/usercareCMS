@@ -86,6 +86,9 @@ var FAQS = React.createClass({
     showInfo(info){
         debugger
     },
+    closeMultiLan(){
+        this.setState({"showLanguageMana":false})
+    },
     deleteFAQ(id){
 
         var _this=this;
@@ -247,7 +250,7 @@ var FAQS = React.createClass({
         return(
            <div>
                <NewTemplate editItem={this.state.editItem} actions={actions} show={this.state.showTemplate} closeModal={this.closeTemplate} categorys={optionsCategory} labels={optionsLabels} itemsModels={itemsModels} ></NewTemplate>
-               <LanguageManagement faqId={this.state.languageFAQid} actions={actions} show={this.state.showLanguageMana}></LanguageManagement>
+               <LanguageManagement FAQS={FAQS} faqId={this.state.languageFAQid} actions={actions} show={this.state.showLanguageMana} closeModal={this.closeMultiLan}></LanguageManagement>
 
                <div className={style.formItem}>
                    <label htmlFor="">keywords</label>

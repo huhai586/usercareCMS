@@ -10,42 +10,83 @@ export default React.createClass({
     getInitialState(){
         return {
 
-            translationStatus:[{value:"all",label:"all"}]
-
+            translationStatus:[{value:"all",label:"all"},{value:"valid",label:"valid"},{value:"invalid",label:"invalid"},{value:"No Translation",label:"No Translation"}],
+            languageStatus:"all",
+            curLanguageData:[],
+            curLanguageName:"",
+            selectdLanguageStatus:"",
+            curLanguageLabel:""
         }
     },
     saveTemplate(){
-        var params={};
-        params.categoryId=this.state.categoryId;
-        params.models=this.state.allModels;
-        params.labelIds=this.state.labels;
-        params.topic=this.refs.title.value.trim();
-        params.brief=this.refs.editor.getContent();
 
-        //检查数据的的完整性
-        var valid=true;
+        var {editor,title}=this.refs;
+        var params={
+            faqId:this.props.faqId,
+            topic:title.value.trim(),
+            brief:editor.getContent(),
+            languageShortName:this.state.curLanguageName
+        };
+        hasError=false;
         for(var x in params){
-           if(params[x]==false){
-               valid=false;
-           }
+            if(params[x].length==0){
+                hasError=true;
+            }
         }
-        if(!valid){
-            alert('No certain data, please check！');
+        if(hasError){
+            alert("some info miss!")
             return
         }
-        this.props.actions.saveTemplate(params)
-
+        if(this.props.FAQS.mLangDetail.id!=undefined){
+            params.id=this.props.FAQS.mLangDetail.id
+        }
+        //执行上传
+        this.props.actions.saveLanTrans(params).then(res=>{
+            if(!res.error){
+                this.closeModal()
+            }
+        })
     },
     componentDidMount(){
-        // this.getVersions()
-    },
+        // getLanguage
 
+    },
+    storeCurLanguageShortName(){
+        if(arguments[0]=="") return
+        this.setState({curLanguageName:arguments[0],curLanguageLabel:arguments[1][0].label},()=>{
+            //get当前语言相应的数据
+            this.props.actions.getDetailInfo({
+                faqId:this.props.faqId,
+                language:arguments[0]
+            })
+        })
+    },
+    getLanguage(){
+        var params={
+            faqId:this.props.faqId,
+            status:this.state.languageStatus
+        };
+
+        this.props.actions.getCurStatus(params).then(res=>{
+            if(!res.error){
+                this.setState({curLanguageData:res.payload.items})
+            }
+        })
+    },
+    componentWillReceiveProps(nextProps){
+        if(this.props.show==false && nextProps.show==true){
+            this.getLanguage()
+        }
+    },
     componentWillUnmount(){
         console.log("组件即将被卸载")
     },
-    storeCategory(val){
-        this.setState({categoryId:val});
+    storeStatus(val){
+        this.setState({languageStatus:val,curLanguageName:"",curLanguageLabel:""},()=>{
+            this.getLanguage()
+        });
     },
+
     storeModel(val){
         //存储当前的model
 
@@ -63,8 +104,14 @@ export default React.createClass({
     },
 
     render() {
-        let {faqId,show}=this.props;
+        let {faqId,show,FAQS}=this.props;
+        //组成language select的option数据
+        var languageData=this.state.curLanguageData.map(obj=>{
+                //all状态下的语言label显示的不一样
+                return {value:obj.languageShortName,label:obj.languageName+"  ("+obj.status+")"}
 
+        });
+       var curLanguageInfo=FAQS.mLangDetail
         return(
             <div>
                <Modal  {...this.props} backdrop="static" onHide={this.closeModal} bsSize="large" aria-labelledby="contained-modal-title-lg">
@@ -72,16 +119,17 @@ export default React.createClass({
                         <Modal.Title id="contained-modal-title-lg" backdrop="static">Multi-language Translation Management</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h6>FAQ ID :9999</h6>
-                        <div>
+                        <h6 className="categoryName">FAQ ID :{this.props.faqId}</h6>
+                        <div className={style.inlineBlock}>
                             <span className="categoryName">Filter</span>
                                 <div className={style.formItem}>
                                     <label htmlFor="">Translation Status</label>
                                     <div className="zujian">
 
                                         <SelectCommon
-                                            onChange={this.storeCategory}
+                                            onChange={this.storeStatus}
                                             options={this.state.translationStatus}
+                                            value={this.state.languageStatus}
 
 
                                             />
@@ -93,87 +141,45 @@ export default React.createClass({
                                 <div className="zujian">
 
                                     <SelectCommon
-                                        onChange={this.storeCategory}
-                                        options={this.state.curLangeage}
-
+                                        onChange={this.storeCurLanguageShortName}
+                                        options={languageData}
+                                        value={this.state.curLanguageName}
 
                                         />
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <span className="categoryName">Status</span>
-                            <span className="languageStatus">Valid</span>
+                        <div className={style.inlineBlock}>
+                            <span className="categoryName">language Status</span>
+                            <span className="languageStatus">{this.state.curLanguageLabel}</span>
                         </div>
 
-                        <div>
+                        <div className={style.inlineBlock}>
                             <span className="categoryName">Question</span>
+                            <span>
+                                {curLanguageInfo.enTopic}
+                            </span>
                         </div>
 
-                        <div>
+                        <div className={style.inlineBlock}>
                             <span className="categoryName">Target Language</span>
-                            <input  type="text" className="form-control"  ref="title"  value={this.state.title}/>
+                            <input  defaultValue={curLanguageInfo.topic} type="text" className="form-control fixInput"  ref="title"  />
                         </div>
 
-                        <div>
+                        <div className={style.inlineBlock}>
                             <span className="categoryName">Answer</span>
-                            <p>
-
-                            </p>
+                            <div className="detailContent" dangerouslySetInnerHTML={{__html:curLanguageInfo.enBrief}}></div>
                         </div>
 
-                        <div>
+                        <h4>Target Language</h4>
 
-                            <span className="categoryName">Target Language</span>
-                            <div></div>
-
-
-
-                        </div>
+                        <UMeditor brief={curLanguageInfo.brief} parentShow={show} ref="editor" ></UMeditor>
 
 
 
-                        <h4>Question</h4>
-                        <input  type="text" className="form-control"  ref="title"  value={this.state.title}/>
-                        <h4>Answer</h4>
-                        <UMeditor parentShow={show} ref="editor" brief={this.state.brief}></UMeditor>
 
 
-                        <h4>Apply to models</h4>
-                        <div className={style.clearFloat}>
-                        <div className={style.alignLeft}>
-                            <span>Universal:This FAQ Will be applied to all the Alcatel ot TCL devices</span>
-                            <div className={style.universal}>
-                                <Checkbox checked={this.state.universalChecked} onChange={this.selectAllModels}>Universal</Checkbox>
-                            </div>
-                            <div className={style.formItem}>
-                                <div className="zujian">
-                                    <Cascader options={itemsModels} expandTrigger="hover"
-                                              onChange={this.storeModel}
-                                              allowClear={true}
-                                              size="large"
-
-                                        />
-                                    <Button onClick={this.pushTOallModels} className={style.addButton}>add</Button>
-                                </div>
-                            </div>
-                        </div>
-
-                            <div className={style.alignRight}>
-                                <span>You choosed:</span>
-                                <div className={style.selectedModel}>
-                                    {
-                                        this.state.allModels.map((obj,index)=>{
-                                            return <span key={index} onClick={this.removeModel.bind(this,index)}>
-                                           { obj.projectName+" "+obj.modelCode}
-                                            </span>
-                                        })
-                                    }
-                                </div>
-                            </div>
-
-                        </div>
 
            
 

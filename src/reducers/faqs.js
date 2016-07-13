@@ -1,12 +1,13 @@
 import { handleActions } from 'redux-actions';
-import { GET_PROJECTS_LIST,GET_LABELS,GET_CATEGORYS,SEARCH_FAQ,GET_ALL_PROJECTS_LIST} from '../constants/actions';
+import { GET_DETAIL,GET_LABELS,GET_CATEGORYS,SEARCH_FAQ,GET_ALL_PROJECTS_LIST} from '../constants/actions';
 import { merge, union } from 'lodash';
 
 const initialState = {
     projectsList:[],
     labelsData:[],
     categoryData:[],
-    searchFAQ:{}
+    searchFAQ:{},
+    mLangDetail:{}
 };
 
 export default handleActions({
@@ -44,6 +45,16 @@ export default handleActions({
         if (!action.error) {
             return {...state,
                 searchFAQ: action.payload
+            };
+        }
+
+        return state
+    },
+    [GET_DETAIL]: (state, action) => {
+
+        if (!action.error) {
+            return {...state,
+                mLangDetail: action.payload.item
             };
         }
 

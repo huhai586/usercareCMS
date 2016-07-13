@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 import * as labelsActions from '../../actions/labels';
 import style from './style.less';
 import { Modal,Pagination } from 'antd';
-import  LabelManagment  from '../../components/Common/data_choose_and_input';
+import  LabelManagment  from '../../components/Common/label-data_choose_and_input';
 import classnames from 'classnames'
 
 let unionActions = Object.assign({}, labelsActions);
@@ -94,9 +94,7 @@ var Dashboard = React.createClass({
                 title="label list"
                 dataForChoose={item}
                 introText={"Check to delete one or more labels"}
-                introText2={"input one or more label names  eg(VR;WATCH)"}
                 delete={this.deleteLabels}
-                add={this.addLabels} >
                 ></LabelManagment>
 
 

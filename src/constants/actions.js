@@ -31,6 +31,9 @@ export const GET_ALL_PROJECTS_LIST = 'GET_ALL_PROJECTS_LIST';
 export const SAVE_TEMPLATE = 'SAVE_TEMPLATE';
 export const DELETE_FAQ = 'DELETE_FAQ';
 export const INVALID_DATE = 'INVALID_DATE';
+export const GET_CUR_STATUS = 'GET_CUR_STATUS';
+export const GET_DETAIL = 'GET_DETAIL';
+export const SAVE_LAN_TRANS = 'SAVE_LAN_TRANS';
 
 
 
